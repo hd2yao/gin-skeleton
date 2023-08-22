@@ -67,22 +67,31 @@ func (y *ymlConfig) ConfigFileChangeListen() {
 
 // 判断项关键是否已经缓存
 func (y *ymlConfig) keyIsCache(keyName string) bool {
+	if _, exists := containerFactory.KeyIsExists(variable.ConfigKeyPrefix + keyName); exists {
+		return true
+	}
 	return false
 }
 
 // 对键值进行缓存
 func (y *ymlConfig) cache(keyName string, value interface{}) bool {
-	return false
+	// 避免瞬间缓存键、值时，程序提示键名已经被注册的日志输出
+	y.mu.Lock()
+	defer y.mu.Unlock()
+	if _, exists := containerFactory.KeyIsExists(variable.ConfigKeyPrefix + keyName); exists {
+		return true
+	}
+	return containerFactory.Set(variable.ConfigKeyPrefix+keyName, value)
 }
 
 // 通过键获取缓存的值
 func (y *ymlConfig) getValueFromCache(keyName string) interface{} {
-	return nil
+	return containerFactory.Get(variable.ConfigKeyPrefix + keyName)
 }
 
 // 清空已经缓存的配置项信息
 func (y *ymlConfig) clearCache() {
-
+	containerFactory.FuzzyDelete(variable.ConfigKeyPrefix)
 }
 
 // Clone 允许 clone 一个相同功能的结构体

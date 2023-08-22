@@ -1,20 +1,22 @@
 package yml_config
 
 import (
-	"go.uber.org/zap"
 	"log"
 	"sync"
 	"time"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
 
+	"github.com/hd2yao/gin-skeleton/app/core/container"
 	"github.com/hd2yao/gin-skeleton/app/global/my_errors"
 	"github.com/hd2yao/gin-skeleton/app/global/variable"
 	"github.com/hd2yao/gin-skeleton/app/utils/yml_config/ymlconfig_interf"
 )
 
 var lastChangeTime time.Time
+var containerFactory = container.CreateContainersFactory()
 
 func init() {
 	lastChangeTime = time.Now()

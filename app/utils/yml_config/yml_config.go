@@ -73,6 +73,11 @@ func (y *ymlConfig) cache(keyName string, value interface{}) bool {
 	return false
 }
 
+// 通过键获取缓存的值
+func (y *ymlConfig) getValueFromCache(keyName string) interface{} {
+	return nil
+}
+
 // 清空已经缓存的配置项信息
 func (y *ymlConfig) clearCache() {
 
@@ -92,47 +97,101 @@ func (y *ymlConfig) Clone(fileName string) ymlconfig_interf.YmlConfigInterf {
 	return &ymlC
 }
 
+// Get 一个原始值
 func (y *ymlConfig) Get(keyName string) interface{} {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName)
+	} else {
+		value := y.viper.Get(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
 
+// GetString 字符串格式返回值
 func (y *ymlConfig) GetString(keyName string) string {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName).(string)
+	} else {
+		value := y.viper.GetString(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
 
+// GetBool 布尔格式返回值
 func (y *ymlConfig) GetBool(keyName string) bool {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName).(bool)
+	} else {
+		value := y.viper.GetBool(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
 
+// GetInt 整数格式返回值
 func (y *ymlConfig) GetInt(keyName string) int {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName).(int)
+	} else {
+		value := y.viper.GetInt(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
 
+// GetInt32 整数格式返回值
 func (y *ymlConfig) GetInt32(keyName string) int32 {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName).(int32)
+	} else {
+		value := y.viper.GetInt32(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
 
+// GetInt64 整数格式返回值
 func (y *ymlConfig) GetInt64(keyName string) int64 {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName).(int64)
+	} else {
+		value := y.viper.GetInt64(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
 
+// GetFloat64 小数格式返回值
 func (y *ymlConfig) GetFloat64(keyName string) float64 {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName).(float64)
+	} else {
+		value := y.viper.GetFloat64(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
 
+// GetDuration 时间单位格式返回值
 func (y *ymlConfig) GetDuration(keyName string) time.Duration {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName).(time.Duration)
+	} else {
+		value := y.viper.GetDuration(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
 
+// GetStringSlice 字符串切片数格式返回值
 func (y *ymlConfig) GetStringSlice(keyName string) []string {
-	//TODO implement me
-	panic("implement me")
+	if y.keyIsCache(keyName) {
+		return y.getValueFromCache(keyName).([]string)
+	} else {
+		value := y.viper.GetStringSlice(keyName)
+		y.cache(keyName, value)
+		return value
+	}
 }
